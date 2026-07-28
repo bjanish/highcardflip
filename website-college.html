@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Card Flip — The Party Card Game</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('college-winner.png') center center / contain no-repeat;
+            opacity: 0.4;
+            z-index: 0;
+            animation: panOut 5s ease-out forwards;
+        }
+
+        @keyframes panOut {
+            from {
+                transform: scale(1.3);
+            }
+
+            to {
+                transform: scale(1.0);
+            }
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 40%, #0f0f0f 100%);
+            z-index: 1;
+        }
+
+        .scroll-arrow {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            transition: opacity 0.3s;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .chevron {
+            display: block;
+            width: 24px;
+            height: 24px;
+            border-bottom: 2.5px solid #d4b038;
+            border-right: 2.5px solid #d4b038;
+            transform: rotate(45deg);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(8px);
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .title {
+            font-size: 32px;
+            font-weight: 600;
+            letter-spacing: 6px;
+            color: #d4b038;
+            margin-bottom: 26px;
+        }
+
+        .tagline {
+            font-size: 18px;
+            color: rgba(255, 255, 255, 0.75);
+            margin-bottom: 40px;
+            max-width: 400px;
+        }
+
+        .app-store-btn {
+            display: inline-block;
+            transition: opacity 0.2s;
+        }
+
+        .app-store-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* How It Works */
+        .section {
+            padding: 20px 20px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #d4b038;
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 180px;
+            max-width: 220px;
+            padding: 20px 16px;
+            border: 1px solid rgba(212, 176, 56, 0.3);
+            border-radius: 10px;
+        }
+
+        .step-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #d4b038;
+            margin-bottom: 8px;
+        }
+
+        .step-text {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.5;
+        }
+
+        /* Features */
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            padding: 0px 20px 80px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .feature {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .mobile-break {
+            display: none;
+        }
+
+        .desktop-dash {
+            display: inline;
+        }
+
+        /* Use Cases */
+        .use-cases {
+            padding: 80px 20px 60px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .use-case-pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 60px;
+        }
+
+        .use-pill {
+            padding: 10px 20px;
+            border: 1px solid rgba(212, 176, 56, 0.3);
+            border-radius: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Footer CTA */
+        .footer-cta {
+            padding: 30px 20px 90px;
+            text-align: center;
+        }
+
+        .footer-cta .tagline {
+            margin: 0 auto 50px;
+        }
+
+        .footer {
+            padding: 30px 20px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 12px;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.4);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #d4b038;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .title {
+                font-size: 24px;
+                letter-spacing: 4px;
+            }
+
+            .tagline {
+                font-size: 16px;
+            }
+
+            .hero {
+                min-height: auto;
+                padding: 80px 16px 20px;
+            }
+
+            .section {
+                padding: 46px 16px 30px;
+            }
+
+            .section-title {
+                font-size: 20px;
+                margin-bottom: 30px;
+            }
+
+            .steps {
+                gap: 16px;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .step {
+                max-width: 280px;
+                min-width: unset;
+                width: 100%;
+            }
+
+            .features {
+                gap: 8px;
+                padding: 0px 16px 40px;
+                text-align: center;
+            }
+
+            .feature {
+                font-size: 13px;
+            }
+
+            .use-cases {
+                padding: 20px 16px;
+            }
+
+            .use-case-pills {
+                gap: 10px;
+                margin-bottom: 20px;
+            }
+
+            .use-pill {
+                font-size: 13px;
+                padding: 8px 16px;
+            }
+
+            .footer-cta {
+                padding: 50px 16px;
+            }
+
+            .scroll-arrow {
+                display: none;
+            }
+
+            .desktop-break {
+                display: none;
+            }
+
+            .mobile-break {
+                display: block;
+            }
+
+            .desktop-dash {
+                display: none;
+            }
+
+            .footer-cta .tagline {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="hero">
+        <div class="hero-content">
+            <img src="crown3.png" alt="Crown" style="width: 48px; height: auto; margin-bottom: 12px;">
+            <h1 class="title">HIGH CARD FLIP</h1>
+            <p class="tagline">The party card game that works without WiFi.<br class="desktop-break"> Flip cards. Highest wins. Lowest pays.</p>
+            <a href="https://apps.apple.com/app/high-card-flip/id0000000000" class="app-store-btn">
+                <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" style="height: 44px; width: auto;">
+            </a>
+        </div>
+        <div class="scroll-arrow"><span class="chevron"></span></div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">HOW IT WORKS</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-text">Toggle to Game mode. Friends nearby connect instantly.</div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-text">3... 2... 1... Everyone flips at the same time.</div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-text">Highest card wins. Lowest card pays. That simple.</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="features">
+        <span class="feature">No WiFi needed &ensp;&mdash;&ensp; No sign-ups<span class="desktop-dash"> &ensp;&mdash;&ensp; </span><br class="mobile-break">No waiting &ensp;&mdash;&ensp; Works instantly</span>
+    </div>
+
+    <section class="use-cases">
+        <h2 class="section-title" style="margin-bottom: 75px;">WAYS TO PLAY</h2>
+        <div class="use-case-pills">
+            <span class="use-pill">Who buys the next round?</span>
+            <span class="use-pill">Loser does the dare</span>
+            <span class="use-pill">High card picks the song</span>
+            <span class="use-pill">Settle any argument</span>
+        </div>
+    </section>
+
+    <section class="footer-cta">
+        <p class="tagline">No accounts. No loading. No internet. Just flip.</p>
+        <a href="https://apps.apple.com/app/high-card-flip/id0000000000" class="app-store-btn">
+            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" style="height: 44px; width: auto;">
+        </a>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2026 Janish Labs &mdash; <a href="https://bjanish.github.io/highcardflip-policy/">Privacy Policy</a></p>
+    </footer>
+
+    <div id="view-count" style="position: fixed; bottom: 10px; left: 10px; color: #0f0f0f; font-size: 11px; user-select: all; z-index: 99;"></div>
+
+    <script>
+        window.addEventListener('scroll', function () {
+            var arrow = document.querySelector('.scroll-arrow');
+            if (window.scrollY > 50) {
+                arrow.style.opacity = '0';
+            } else {
+                arrow.style.opacity = '1';
+            }
+        });
+
+        // Page view counter
+        fetch('https://countapi.mileshilliard.com/api/v1/hit/highcardflip_college_visits')
+            .then(function (res) { return res.json(); })
+            .then(function (data) {
+                document.getElementById('view-count').textContent = data.value || '0';
+            })
+            .catch(function () { });
+    </script>
+
+</body>
+
+</html>
