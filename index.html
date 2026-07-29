@@ -29,7 +29,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 40px 20px 80px;
+            padding: 40px 20px;
             overflow: hidden;
         }
 
@@ -241,6 +241,10 @@
             color: #d4b038;
         }
 
+        .mobile-break {
+            display: none;
+        }
+
         /* Responsive */
         @media (max-width: 600px) {
             .title {
@@ -254,7 +258,7 @@
 
             .hero {
                 min-height: auto;
-                padding: 80px 16px 20px;
+                padding: 80px 16px 60px;
             }
 
             .section {
@@ -321,6 +325,10 @@
             }
 
             .mobile-break {
+                display: inline;
+            }
+
+            .mobile-break {
                 display: block;
             }
 
@@ -341,7 +349,7 @@
         <div class="hero-content">
             <img src="crown3.png" alt="Crown" style="width: 48px; height: auto; margin-bottom: 12px;">
             <h1 class="title">HIGH CARD FLIP</h1>
-            <p class="tagline">The party card game that works without WiFi.<br class="desktop-break"> Flip cards. Highest wins. Lowest pays.</p>
+            <p class="tagline">The party card game that<br class="mobile-break"> works without WiFi.<br class="desktop-break"> Flip cards. Highest wins. Lowest pays.</p>
             <a href="https://apps.apple.com/app/high-card-flip/id0000000000" class="app-store-btn">
                 <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" style="height: 44px; width: auto;">
             </a>
