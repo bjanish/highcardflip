@@ -487,9 +487,9 @@
     <div id="view-count" style="position: fixed; bottom: 10px; left: 10px; color: #0f0f0f; font-size: 11px; user-select: all; z-index: 99;"></div>
 
     <script>
-        window.addEventListener('scroll', function () {
+        document.body.addEventListener('scroll', function () {
             var arrow = document.querySelector('.scroll-arrow');
-            if (window.scrollY > 50) {
+            if (document.body.scrollTop > 50) {
                 arrow.style.opacity = '0';
             } else {
                 arrow.style.opacity = '1';
