@@ -194,7 +194,7 @@
 
         /* Use Cases */
         .use-cases {
-            padding: 80px 20px 60px 20px;
+            padding: 80px 20px 20px 20px;
             max-width: 600px;
             margin: 0 auto;
             text-align: center;
@@ -205,7 +205,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 12px;
-            margin-bottom: 60px;
+            margin-bottom: 0px;
         }
 
         .use-pill {
@@ -218,7 +218,7 @@
 
         /* Footer CTA */
         .footer-cta {
-            padding: 30px 20px 90px;
+            padding: 0px 20px 120px;
             text-align: center;
         }
 
@@ -240,6 +240,71 @@
 
         .footer a:hover {
             color: #d4b038;
+        }
+
+        /* Flip Card */
+        .flip-card {
+            width: 120px;
+            height: 168px;
+            perspective: 800px;
+            margin: 0 auto;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flip-card-front {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 1.5px solid rgba(212, 176, 56, 0.4);
+            overflow: hidden;
+        }
+
+        .flip-card-front::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(212, 176, 56, 0.3);
+            border-radius: 6px;
+            background:
+                repeating-linear-gradient(65deg,
+                    transparent,
+                    transparent 5px,
+                    rgba(255, 255, 255, 0.08) 5px,
+                    rgba(255, 255, 255, 0.08) 6px),
+                repeating-linear-gradient(-65deg,
+                    transparent,
+                    transparent 5px,
+                    rgba(255, 255, 255, 0.08) 5px,
+                    rgba(255, 255, 255, 0.08) 6px);
+        }
+
+        .flip-card-back {
+            background: #0f0f0f;
+            transform: rotateY(180deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Responsive */
@@ -306,7 +371,7 @@
             }
 
             .footer-cta {
-                padding: 30px 16px 20px;
+                padding: 0px 16px 80px;
             }
 
             .footer {
@@ -394,9 +459,18 @@
     </section>
 
     <section class="footer-cta">
-        <a href="https://apps.apple.com/app/high-card-flip/id0000000000" class="app-store-btn">
-            <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" style="height: 44px; width: auto;">
-        </a>
+        <div class="flip-card" id="flipCard">
+            <div class="flip-card-inner">
+                <div class="flip-card-front">
+                    <img src="crown3.png" alt="Crown" style="width: 32px; height: auto;">
+                </div>
+                <div class="flip-card-back">
+                    <a href="https://apps.apple.com/app/high-card-flip/id0000000000">
+                        <img src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83" alt="Download on the App Store" style="height: 40px; width: auto;">
+                    </a>
+                </div>
+            </div>
+        </div>
     </section>
 
     <footer class="footer">
@@ -414,6 +488,20 @@
                 arrow.style.opacity = '1';
             }
         });
+
+        // Flip card on scroll into view
+        var flipCard = document.getElementById('flipCard');
+        var flipObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    setTimeout(function () {
+                        flipCard.classList.add('flipped');
+                    }, 600);
+                    flipObserver.unobserve(flipCard);
+                }
+            });
+        }, { threshold: 0.5 });
+        flipObserver.observe(flipCard);
 
         // Page view counter
         fetch('https://countapi.mileshilliard.com/api/v1/hit/highcardflip_college_visits')
