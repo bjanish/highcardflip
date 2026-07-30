@@ -491,13 +491,16 @@
 
         // Flip card on scroll into view
         var flipCard = document.getElementById('flipCard');
+        var flipTimeout = null;
         var flipObserver = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
                 if (entry.isIntersecting) {
-                    setTimeout(function () {
+                    flipTimeout = setTimeout(function () {
                         flipCard.classList.add('flipped');
                     }, 600);
-                    flipObserver.unobserve(flipCard);
+                } else {
+                    clearTimeout(flipTimeout);
+                    flipCard.classList.remove('flipped');
                 }
             });
         }, { threshold: 0.5 });
